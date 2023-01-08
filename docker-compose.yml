@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  web1:    
+    container_name: web1
+    build:      
+      context: ..
+      dockerfile: "DockerExample/Dockerfile"
+    #depends_on: [ mssql ]        
+    ports:
+      - "5555:80"
+    environment:
+      - port=5555web1
+        
+  web2:
+    container_name: web2
+    build:      
+      context: ..
+      dockerfile: "DockerExample/Dockerfile"
+    depends_on: [ web1 ]        
+    ports:
+      - "6666:80"
+    environment:
+      - port=6666web2
+  web3:
+    container_name: web3
+    build:      
+      context: ..
+      dockerfile: "DockerExample/Dockerfile"
+    depends_on: [ web2 ]        
+    ports:
+      - "7777:80"
+    environment:
+      - port=7777web3
+  nginx:
+    container_name: nginxserver
+    build:      
+      context: ..
+      dockerfile: "DockerExample/nginx server/Dockerfile"
+    restart: unless-stopped    
+    depends_on: [ web3, web2, web1 ]  
+    ports:
+      # So we can access the database
+      # From a tool like JetBrains Rider
+      # Optional for this demo
+      - "8081:80" 

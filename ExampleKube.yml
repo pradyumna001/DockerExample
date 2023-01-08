@@ -1,0 +1,9 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: dockerexample
+spec:
+  containers:
+  - name: dockerexample
+    image: dockerexample
+
